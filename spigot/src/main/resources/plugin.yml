@@ -1,0 +1,33 @@
+name: DiscordChat
+main: work.raru.discordchat.spigot.Plugin
+version: 0.2.0
+author: ozraru
+api-version: 1.16
+commands:
+  discordchat:
+    description: DiscordChat Command
+    permission: discordchat.command
+    aliases: [dc, dchat]
+    usage: /discordchat
+permissions:
+  discordchat.command.link:
+    description: Permission to use /discordchat link. Everyone have this permission in default.
+    default: true
+  discordchat.command.reload:
+    description: Permission to use /discordchat reload. Only for OP default.
+    default: op
+  discordchat.command.restart:
+    description: Permission to use /discordchat restart. Only for OP default.
+    default: op
+  discordchat.command.emojiful:
+    description: Permission to use /discordchat emojiful. Only for OP default.
+    default: op
+  discordchat.login.link:
+    description: Linking while logging in. Everyone have this permission in default.
+    default: true
+  discordchat.login.linked:
+    description: Loging in who linked. Everyone have this permission in default.
+    default: true
+  discordchat.login.unlinked:
+    description: Loging in who unlinked. Only for OP default.
+    default: op
