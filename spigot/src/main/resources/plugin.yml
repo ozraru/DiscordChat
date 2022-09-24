@@ -1,6 +1,6 @@
 name: DiscordChat
 main: work.raru.discordchat.spigot.Plugin
-version: 0.2.0
+version: 0.2.1
 author: ozraru
 api-version: 1.16
 commands:
