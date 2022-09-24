@@ -26,7 +26,7 @@ public class DiscordMessage extends ListenerAdapter {
 	}
 
     static GuildMessageChannel getChannel() {
-        return Discord.jda.getTextChannelById(Main.platform.getConfig().getDiscordChannelID());
+		return (GuildMessageChannel) Discord.jda.getGuildChannelById(Main.platform.getConfig().getDiscordChannelID());
     }
 
     @Override
