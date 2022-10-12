@@ -15,18 +15,19 @@ public class UserLinkManager {
 
     static Random random = new Random();
 
-    public static String linkQueue(@Nonnull UUID minecraftUUID, @Nonnull int expireSeconds) throws SQLException {
+    public static String linkQueue(@Nonnull UUID minecraftUUID, int expireSeconds) throws SQLException {
         String token = String.format("%06d", random.nextInt(1000000));
         linkQueue(minecraftUUID, token, expireSeconds);
         return token;
     }
 
-    public static void linkQueue(@Nonnull UUID minecraftUUID, @Nonnull String token, @Nonnull int expireSeconds)
+    public static void linkQueue(@Nonnull UUID minecraftUUID, @Nonnull String token, int expireSeconds)
             throws SQLException {
         DatabaseManager.createToken(minecraftUUID, token,
                 Timestamp.valueOf(LocalDateTime.now().plusSeconds(expireSeconds)));
     }
 
+    @SuppressWarnings("null")
     public static String useToken(@Nonnull Member member, @Nonnull String token) throws SQLException {
         String minecraft = DatabaseManager.useToken(token);
         if (minecraft == null) {

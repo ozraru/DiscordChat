@@ -2,9 +2,11 @@ package work.raru.discordchat.forge;
 
 import java.util.UUID;
 
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import work.raru.discordchat.common.DiscordMessage;
@@ -14,7 +16,10 @@ public class ForgeChat implements IMinecraftChat {
 
     @Override
     public void tell(UUID minecraft, String message) {
-        ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(minecraft).sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+        ServerPlayerEntity player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(minecraft);
+        if (player != null) {
+            player.sendMessage(new StringTextComponent(message), Util.NIL_UUID);
+        }
     }
 
     @Override
@@ -24,7 +29,7 @@ public class ForgeChat implements IMinecraftChat {
 
     @Override
     public String getName(UUID uuid) {
-        return ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayer(uuid).getName().getContents();
+        return UsernameCache.getLastKnownUsername(uuid);
     }
 
     // @SubscribeEvent
