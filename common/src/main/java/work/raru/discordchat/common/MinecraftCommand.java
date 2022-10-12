@@ -16,7 +16,7 @@ public class MinecraftCommand {
     static Random random = new Random();
 
     public static List<String> getAutoComplete(String[] args, Predicate<String> perm) {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		if (args.length == 1) {
             if (perm.test(Permissions.COMMAND_LINK.node)) {
                 result.add("link");
@@ -60,17 +60,19 @@ public class MinecraftCommand {
     }
 
     public static boolean link(@Nonnull IPlayer player, String targetArg) {
-        return link(player, Main.platform.getUtility().getPlayer(player, targetArg));
+        IPlayer target = Main.platform.getUtility().getPlayer(player, targetArg);
+        if (target == null) {
+            player.sendMsg("Not found User", false);
+            return false;
+        }
+        return link(player, target);
     }
 
+    @SuppressWarnings("null")
     public static boolean link(@Nonnull IPlayer player, @Nonnull IPlayer target) {
         if (!player.checkPerm(Permissions.COMMAND_LINK)) {
             player.sendMsg("You don't have permission: "+Permissions.COMMAND_LINK, false);
             return true;
-        }
-        if (target == null) {
-            player.sendMsg("Not found User", false);
-            return false;
         }
         if (target.getUUID() == null) {
             return false;

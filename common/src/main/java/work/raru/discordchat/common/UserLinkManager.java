@@ -16,7 +16,7 @@ public class UserLinkManager {
     static Random random = new Random();
 
     public static String linkQueue(@Nonnull UUID minecraftUUID, int expireSeconds) throws SQLException {
-        String token = String.format("%06d", random.nextInt(1000000));
+        @Nonnull @SuppressWarnings("null") String token = String.format("%06d", random.nextInt(1000000));
         linkQueue(minecraftUUID, token, expireSeconds);
         return token;
     }

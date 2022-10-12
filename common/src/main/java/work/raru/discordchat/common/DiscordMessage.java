@@ -7,6 +7,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildMessageChannel;
@@ -25,40 +28,51 @@ public class DiscordMessage extends ListenerAdapter {
 		instance = this;
 	}
 
-    static GuildMessageChannel getChannel() {
+	static GuildMessageChannel getChannel() {
 		return (GuildMessageChannel) Discord.jda.getGuildChannelById(Main.platform.getConfig().getDiscordChannelID());
-    }
+	}
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.isFromGuild() && event.getChannel().getIdLong() != Main.platform.getConfig().getDiscordChannelID()) {
-            return;
-        }
-        if (event.getMessage().getContentRaw().startsWith(Main.platform.getConfig().getDiscordPrefix())) {
-            String command = event.getMessage().getContentRaw().substring(Main.platform.getConfig().getDiscordPrefix().length());
-            String[] splitCommand = command.split(" ");
-            switch (splitCommand[0]) {
-                case "link":
-                    link(event.getMessage(), splitCommand);
-                    break;
-                default:
-                    break;
-            }
-        } else {
+	@Override
+	public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
+		if (!event.isFromGuild()) {
+			return;
+		}
+		if (event.getChannel().getIdLong() != Main.platform.getConfig().getDiscordChannelID()) {
+			return;
+		}
+		if (event.getMessage().getContentRaw().startsWith(Main.platform.getConfig().getDiscordPrefix())) {
+			String command = event.getMessage().getContentRaw()
+					.substring(Main.platform.getConfig().getDiscordPrefix().length());
+			String[] splitCommand = command.split(" ");
+			switch (splitCommand[0]) {
+				case "link":
+					link(event.getMessage(), splitCommand);
+					break;
+				default:
+					break;
+			}
+		} else {
 			if (event.isFromGuild() && !event.isWebhookMessage()
 					&& !event.getAuthor().equals(event.getJDA().getSelfUser())) {
 				toMinecraft(event.getMessage());
 			}
-        }
-    }
+		}
+	}
 
-    private void link(Message msg, String[] splitCommand) {
-        if (splitCommand.length < 2) {
-			msg.reply("Usage: " + Main.platform.getConfig().getDiscordPrefix() + "link <token>").mentionRepliedUser(false).queue();
-            return;
-        }
+	private void link(Message msg, @Nonnull String[] splitCommand) {
+		if (splitCommand.length < 2) {
+			msg.reply("Usage: " + Main.platform.getConfig().getDiscordPrefix() + "link <token>")
+					.mentionRepliedUser(false).queue();
+			return;
+		}
+		Member member = msg.getMember();
+		if (member == null) {
+			msg.reply("You can't link because you don't have Member Object in Discord.").queue();
+			return;
+		}
 		try {
-			String minecraftUUID = UserLinkManager.useToken(msg.getMember(), splitCommand[1]);
+			@SuppressWarnings("null")
+			String minecraftUUID = UserLinkManager.useToken(member, splitCommand[1]);
 			if (minecraftUUID != null) {
 				msg.reply("Successfully linked to " + minecraftUUID).queue();
 			} else {
@@ -68,32 +82,37 @@ public class DiscordMessage extends ListenerAdapter {
 			e.printStackTrace();
 			msg.reply("Unexpected error has occurred in accessing database").mentionRepliedUser(false).queue();
 		}
-    }
+	}
 
-    private void toMinecraft(Message msg) {
-		String content;
+	private void toMinecraft(Message msg) {
+		@Nullable
+		Member member = msg.getMember();
 		String minecraftName = null;
-		try {
-			UUID minecraftUUID = UserLinkManager.getMinecraftUUID(msg.getMember().getIdLong());
-			if (minecraftUUID != null) {
-                minecraftName = Main.platform.getChat().getName(minecraftUUID);
+		if (member != null) {
+			try {
+				UUID minecraftUUID = UserLinkManager.getMinecraftUUID(member.getIdLong());
+				if (minecraftUUID != null) {
+					minecraftName = Main.platform.getChat().getName(minecraftUUID);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-        content = Main.platform.getConfig().getChatFormats().getMinecraftFormat(minecraftName != null, msg.getReferencedMessage() != null, !msg.getAttachments().isEmpty());
+		String content = Main.platform.getConfig().getChatFormats().getMinecraftFormat(minecraftName != null,
+				msg.getReferencedMessage() != null, !msg.getAttachments().isEmpty());
 		if (minecraftName != null) {
 			content = content.replace("%m", minecraftName);
 		}
 
-		content = content.replace("%d", 
-		msg.getMember() == null 
-		? msg.getAuthor().getName() 
-		: msg.getMember().getEffectiveName());
+		content = content.replace("%d",
+				member == null
+						? msg.getAuthor().getName()
+						: member.getEffectiveName());
 		content = content.replace("%t", msg.getContentDisplay());
-		if (msg.getReferencedMessage() != null) {
+		Message refMsg = msg.getReferencedMessage();
+		if (refMsg != null) {
 			try {
-				UUID minecraftUUID = UserLinkManager.getMinecraftUUID(msg.getMember().getIdLong());
+				UUID minecraftUUID = UserLinkManager.getMinecraftUUID(refMsg.getAuthor().getIdLong());
 				if (minecraftUUID != null) {
 					String replyMinecraft = Main.platform.getChat().getName(minecraftUUID);
 					if (replyMinecraft != null) {
@@ -104,25 +123,26 @@ public class DiscordMessage extends ListenerAdapter {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			Member refMember = refMsg.getMember();
 			content = content.replace("%rm", "");
-			if (msg.getReferencedMessage().getMember() == null) {
-				content = content.replace("%rn", msg.getReferencedMessage().getAuthor().getName());
-				content = content.replace("%rd", msg.getReferencedMessage().getAuthor().getName());
+			if (refMember == null) {
+				content = content.replace("%rn", refMsg.getAuthor().getName());
+				content = content.replace("%rd", refMsg.getAuthor().getName());
 			} else {
-				content = content.replace("%rn", msg.getReferencedMessage().getMember().getEffectiveName());
-				content = content.replace("%rd", msg.getReferencedMessage().getMember().getEffectiveName());
+				content = content.replace("%rn", refMember.getEffectiveName());
+				content = content.replace("%rd", refMember.getEffectiveName());
 			}
-            String msgText = msg.getReferencedMessage().getContentDisplay();
-            msgText = EmojiParser.parseToAliases(msgText);
-            msgText = MarkdownConverter.toMinecraft(msgText);
-			content = content.replace("%rt", msgText);
+			String refText = refMsg.getContentDisplay();
+			refText = EmojiParser.parseToAliases(refText);
+			refText = MarkdownConverter.toMinecraft(refText);
+			content = content.replace("%rt", refText);
 		}
-        Main.platform.getChat().broadcast(content);
-    }
-	
+		Main.platform.getChat().broadcast(content);
+	}
+
 	static final Pattern emojiPattern = Pattern.compile("\\w{2,}");
 
-    public void fromMinecraft(UUID minecraft, String mcName, String message) {
+	public void fromMinecraft(UUID minecraft, String mcName, String message) {
 		DiscordWebhook webhook = new DiscordWebhook(Main.platform.getConfig().getWebhookURL());
 		String discordName = Main.platform.getConfig().getChatFormats().getDiscordUnlinkedName();
 		try {
@@ -150,11 +170,12 @@ public class DiscordMessage extends ListenerAdapter {
 			if (!matcher.matches()) {
 				continue;
 			}
+			@SuppressWarnings("null")
 			List<RichCustomEmoji> emojis = getChannel().getGuild().getEmojisByName(splitMessage[i], true);
 			if (emojis.isEmpty()) {
 				continue;
 			}
-			result = result.replaceAll(":"+splitMessage[i]+":", emojis.get(0).getAsMention());
+			result = result.replaceAll(":" + splitMessage[i] + ":", emojis.get(0).getAsMention());
 		}
 
 		webhook.setContent(result);
@@ -162,15 +183,15 @@ public class DiscordMessage extends ListenerAdapter {
 		ThreadManager.execute(webhook);
 	}
 
-    public void systemMessage(String message) {
+	public void systemMessage(@Nonnull String message) {
 		getChannel().sendMessage(message).queue();
 	}
 
-    public void gameMessage(String message) {
+	public void gameMessage(String message) {
 		DiscordWebhook webhook = new DiscordWebhook(Main.platform.getConfig().getWebhookURL());
 
 		webhook.setContent(message);
-		
+
 		ThreadManager.execute(webhook);
 	}
 }

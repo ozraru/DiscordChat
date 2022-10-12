@@ -21,6 +21,7 @@ public class LoginChecker {
             }
             if (player.checkPerm(Permissions.LOGIN_LINK)) {
                 int expirationSeconds = Main.platform.getConfig().getTokenExpire();
+                @SuppressWarnings("null")
                 String token = UserLinkManager.linkQueue(player.getUUID(), expirationSeconds);
                 String commandText = Main.platform.getConfig().getDiscordPrefix() + "link " + token;
                 return String.format(
