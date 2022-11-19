@@ -37,7 +37,6 @@ description='''
 Chat Integration for Discord
 Only for server-side.
 '''
-displayTest="IGNORE_ALL_VERSION"
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.discordchat]] #optional
