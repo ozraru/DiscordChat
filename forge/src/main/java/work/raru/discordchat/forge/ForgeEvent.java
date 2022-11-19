@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import work.raru.discordchat.common.DiscordMessage;
+import work.raru.discordchat.common.Main;
 
 public class ForgeEvent {
     private ForgeEvent() {}
@@ -39,5 +40,6 @@ public class ForgeEvent {
     @SubscribeEvent
     public static void serverStoppingEvent(final FMLServerStoppingEvent e) {
         DiscordMessage.instance.systemMessage("Server stopping");
+        Main.deinit();
     }
 }

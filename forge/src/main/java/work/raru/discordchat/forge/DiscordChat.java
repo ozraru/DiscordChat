@@ -7,6 +7,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -27,7 +28,6 @@ public class DiscordChat {
     }
 
     public void start(final FMLCommonSetupEvent e) {
-
         for (Permissions perm : Permissions.values()) {
             DefaultPermissionLevel level;
             switch (perm.defaultPerm) {
@@ -47,18 +47,23 @@ public class DiscordChat {
             PermissionAPI.registerNode(perm.node, level, perm.description);
         }
 
-        try {
-            Main.init(platform);
-            MinecraftForge.EVENT_BUS.addListener(platform.chat::chatEvent);
-            MinecraftForge.EVENT_BUS.addListener(this::registerCommand);
-            MinecraftForge.EVENT_BUS.register(ForgeEvent.class);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        MinecraftForge.EVENT_BUS.addListener(this::registerCommand);
+        MinecraftForge.EVENT_BUS.addListener(this::serverStartingEvent);
     }
 
     @SubscribeEvent
     public void registerCommand(final RegisterCommandsEvent e) {
         ForgeCommand.register(e.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public void serverStartingEvent(final FMLServerStartingEvent e) {
+        try {
+            Main.init(platform);
+            MinecraftForge.EVENT_BUS.addListener(platform.chat::chatEvent);
+            MinecraftForge.EVENT_BUS.register(ForgeEvent.class);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
