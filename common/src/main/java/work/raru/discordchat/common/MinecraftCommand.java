@@ -144,7 +144,6 @@ public class MinecraftCommand {
         try {
             Discord.jda.awaitReady();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             player.sendMsg("Failed to start JDA.", false);
             return;

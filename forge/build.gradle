@@ -34,7 +34,6 @@ repositories {
 }
 
 dependencies {
-    // compileOnly "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
     minecraft "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
     implementation project(':common')
     shadowDep project(':common')

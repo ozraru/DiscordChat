@@ -108,4 +108,9 @@ public class SpigotConfig implements IConfig {
 			return config.getString(key.toString());
 		}
 	}
+
+	@Override
+	public int getShutdownTimeSecond() {
+		return config.getInt("shutdown_time", -1);
+	}
 }

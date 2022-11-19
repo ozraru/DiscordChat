@@ -52,5 +52,19 @@ public class ForgeUtility implements IUtility {
 
         return new File(worldFile, "datapacks");
     }
-    
+
+    @Override
+    public int getPlayerNum() {
+        return ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerCount();
+    }
+
+    @Override
+    public void shutdownServer() {
+        ServerLifecycleHooks.getCurrentServer().halt(false);
+    }
+
+    @Override
+    public boolean isShutdowning() {
+        return !ServerLifecycleHooks.getCurrentServer().isRunning();
+    }
 }

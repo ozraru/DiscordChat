@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import work.raru.discordchat.common.DiscordMessage;
 import work.raru.discordchat.common.Main;
+import work.raru.discordchat.common.ShutdownManager;
 
 public class Plugin extends JavaPlugin {
     
@@ -23,6 +24,7 @@ public class Plugin extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new SpigotEvent(), this);
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
                 DiscordMessage.instance.systemMessage("Server started");
+                ShutdownManager.quitEvent();
 			});
         } catch (Exception e) {
             e.printStackTrace();

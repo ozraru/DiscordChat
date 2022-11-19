@@ -60,12 +60,18 @@ public class ForgeConfig implements IConfig {
         private static final String defaultDatabasePassword = "PASSWORD";
         public final ConfigValue<String> databasePassword;
 
+        private static final int defaultShutdownTime = -1;
+        public final ConfigValue<Integer> shutdownTime;
+
         private static final boolean defaultDebug = false;
         public final ConfigValue<Boolean> debug;
 
         public ForgeConfigObj(ForgeConfigSpec.Builder builder) {
 
-            this.debug = builder.comment("Debug mode", "this may increase log")
+            this.shutdownTime = builder.comment("Shutdown time", "Wait time duration until shutdown(second)", "If set -1, disable auto shutdown feature")
+            .define("shutdown_time", defaultShutdownTime);
+
+            this.debug = builder.comment("this may increase log")
             .define("debug", defaultDebug);
 
             builder.comment("Discord Settings")
@@ -192,7 +198,6 @@ public class ForgeConfig implements IConfig {
 
     @Override
     public String getToken() {
-        // TODO Auto-generated method stub
         return config.discordToken.get();
     }
 
@@ -303,4 +308,9 @@ public class ForgeConfig implements IConfig {
 			}
 		}
 	}
+
+    @Override
+    public int getShutdownTimeSecond() {
+        return config.shutdownTime.get();
+    }
 }

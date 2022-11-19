@@ -12,4 +12,10 @@ public interface IUtility {
 
     public abstract @Nonnull File getDatapackDir();
 
+    public abstract int getPlayerNum();
+
+    public abstract void shutdownServer();
+
+    public abstract boolean isShutdowning();
+
 }

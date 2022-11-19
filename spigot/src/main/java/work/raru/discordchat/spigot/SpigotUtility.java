@@ -34,4 +34,19 @@ public class SpigotUtility implements IUtility {
 	public File getDatapackDir() {
 		return new File(Plugin.instance.getServer().getWorlds().get(0).getWorldFolder(), "datapacks");
 	}
+
+	@Override
+	public int getPlayerNum() {
+		return Plugin.instance.getServer().getOnlinePlayers().size();
+	}
+
+	@Override
+	public void shutdownServer() {
+		Plugin.instance.getServer().shutdown();
+	}
+
+	@Override
+	public boolean isShutdowning() {
+		return !Plugin.instance.isEnabled();
+	}
 }

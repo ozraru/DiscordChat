@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import work.raru.discordchat.common.DiscordMessage;
 import work.raru.discordchat.common.LoginChecker;
 import work.raru.discordchat.common.Main;
+import work.raru.discordchat.common.ShutdownManager;
 
 public class SpigotEvent implements Listener {
 	@EventHandler
@@ -36,6 +37,7 @@ public class SpigotEvent implements Listener {
 		if (e.getJoinMessage() != null) {
 			DiscordMessage.instance.gameMessage(e.getJoinMessage().replaceAll("§.", ""));
 		}
+		ShutdownManager.joinEvent();
 	}
 
 	@EventHandler
@@ -43,6 +45,7 @@ public class SpigotEvent implements Listener {
 		if (e.getQuitMessage() != null) {
 			DiscordMessage.instance.gameMessage(e.getQuitMessage().replaceAll("§.", ""));
 		}
+		ShutdownManager.quitEvent();
 	}
 	
 	@EventHandler

@@ -30,6 +30,8 @@ public interface IConfig {
 
 	public abstract String getDatabaseTablePrefix();
 
+	public abstract int getShutdownTimeSecond();
+
 	public abstract ChatFormats getChatFormats();
 
     public interface ChatFormats {
