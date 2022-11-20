@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -14,9 +15,12 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.TimeFormat;
 
 public class ShutdownManager extends ListenerAdapter {
-    private static Timer timer = new Timer(true);
-    private static TimerTask task = null;
-    private static Message msg = null;
+    private final static String EXTEND_BUTTON = "extend";
+    private final static String SHUTDOWN_BUTTON = "shutdown";
+
+    @Nonnull private static Timer timer = new Timer(true);
+    @Nullable private static TimerTask task = null;
+    @Nullable private static Message msg = null;
 
     private static boolean isEnabled() {
         return Main.platform.getConfig().getShutdownTimeSecond() >= 0;
@@ -44,7 +48,7 @@ public class ShutdownManager extends ListenerAdapter {
 
         if (schedule(schedule, false)) {
             DiscordMessage.getChannel().sendMessage("Shutdown scheduled " + TimeFormat.RELATIVE.atInstant(schedule))
-                    .addActionRow(Button.primary("extend", "Extend")).submit().thenAccept((Message m) -> {
+                    .addActionRow(Button.primary(EXTEND_BUTTON, "Reset timer"), Button.danger(SHUTDOWN_BUTTON, "Shutdown immediately")).submit().thenAccept((Message m) -> {
                         msg = m;
                     });
         }
@@ -55,14 +59,28 @@ public class ShutdownManager extends ListenerAdapter {
         if (event.getMessageIdLong() != msg.getIdLong()) {
             return;
         }
-        if ("extend".equals(event.getButton().getId())) {
-            Instant schedule = Instant.now().plusSeconds(Main.platform.getConfig().getShutdownTimeSecond());
+        String id = event.getButton().getId();
+        if (id == null) {
+            return;
+        }
+        switch (id) {
+            case EXTEND_BUTTON: {
+                Instant schedule = Instant.now().plusSeconds(Main.platform.getConfig().getShutdownTimeSecond());
 
-            if (schedule == null)
-                throw new AssertionError();
+                if (schedule == null)
+                    throw new AssertionError();
 
-            if (schedule(schedule, true)) {
-                event.editMessage("Shutdown scheduled " + TimeFormat.RELATIVE.atInstant(schedule)).queue();
+                if (schedule(schedule, true)) {
+                    event.editMessage("Shutdown scheduled " + TimeFormat.RELATIVE.atInstant(schedule)).queue();
+                }
+                break;
+            }
+            case SHUTDOWN_BUTTON: {
+                TimerTask task2 = task;
+                if (task2 != null) {
+                    task2.run();
+                }
+                break;
             }
         }
     }
