@@ -86,9 +86,8 @@ public class MinecraftCommand {
             String token = UserLinkManager.linkQueue(target.getUUID(), expirationSeconds);
             String commandText = Main.platform.getConfig().getDiscordPrefix() + "link " + token;
             String messageText = String.format(
-                    "Please send '%s' in discord #%s or %s's DM in %d seconds (click here to copy command)",
+                    "Please send '%s' in discord #%s in %d seconds (click here to copy command)",
                     commandText, DiscordMessage.getChannel().getName(),
-                    DiscordMessage.getChannel().getGuild().getSelfMember().getEffectiveName(),
                     expirationSeconds);
             player.sendMsgClipboard(messageText, true, commandText);
             return true;

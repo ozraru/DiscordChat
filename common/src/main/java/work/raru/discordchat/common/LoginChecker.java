@@ -25,9 +25,8 @@ public class LoginChecker {
                 String token = UserLinkManager.linkQueue(player.getUUID(), expirationSeconds);
                 String commandText = Main.platform.getConfig().getDiscordPrefix() + "link " + token;
                 return String.format(
-                        "Please send '%s' in discord #%s or %s's DM in %d seconds",
+                        "Please send '%s' in discord #%s in %d seconds",
                         commandText, DiscordMessage.getChannel().getName(),
-                        DiscordMessage.getChannel().getGuild().getSelfMember().getEffectiveName(),
                         expirationSeconds);
             } else {
                 return "You don't permitted to login and linking on login";
