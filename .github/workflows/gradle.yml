@@ -9,6 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
+    tags: [ v* ]
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -45,3 +46,13 @@ jobs:
       with:
         name: DiscordChat-forge1.12.2.jar
         path: forge12/build/libs/DiscordChat-forge1.12.2.jar
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        draft: true
+        generate_release_notes: true
+        files: |
+          spigot/build/libs/DiscordChat-spigot-*.jar
+          forge/build/libs/DiscordChat-forge*.jar
+          forge12/build/libs/DiscordChat-forge*.jar
