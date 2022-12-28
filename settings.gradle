@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'DiscordChat'
-include('common', 'spigot', 'forge')
+include('common', 'spigot', 'forge', 'forge12')

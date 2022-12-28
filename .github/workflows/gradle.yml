@@ -40,3 +40,8 @@ jobs:
       with:
         name: DiscordChat-forge.jar
         path: forge/build/libs/DiscordChat-forge.jar
+    - name: Upload a Forge1.12.2 mod
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: DiscordChat-forge1.12.2.jar
+        path: forge12/build/libs/DiscordChat-forge1.12.2.jar

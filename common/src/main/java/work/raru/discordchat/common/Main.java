@@ -5,6 +5,8 @@ import java.sql.SQLException;
 public class Main {
     private Main() {}
 
+    public static final String VERSION = "0.4";
+
     @SuppressWarnings("squid:S1444")
     public static IPlatform platform;
 
