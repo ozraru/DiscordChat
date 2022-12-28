@@ -5,11 +5,10 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Gradle build CI
 
 on:
   push:
-    tags: [ v* ]
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -35,24 +34,14 @@ jobs:
       uses: actions/upload-artifact@v3.0.0
       with:
         name: DiscordChat-spigot.jar
-        path: spigot/build/libs/DiscordChat-spigot.jar
+        path: spigot/build/libs/DiscordChat-spigot-*.jar
     - name: Upload a Forge mod
       uses: actions/upload-artifact@v3.0.0
       with:
         name: DiscordChat-forge.jar
-        path: forge/build/libs/DiscordChat-forge.jar
+        path: forge/build/libs/DiscordChat-forge*.jar
     - name: Upload a Forge1.12.2 mod
       uses: actions/upload-artifact@v3.0.0
       with:
         name: DiscordChat-forge1.12.2.jar
-        path: forge12/build/libs/DiscordChat-forge1.12.2.jar
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        draft: true
-        generate_release_notes: true
-        files: |
-          spigot/build/libs/DiscordChat-spigot-*.jar
-          forge/build/libs/DiscordChat-forge*.jar
-          forge12/build/libs/DiscordChat-forge*.jar
+        path: forge12/build/libs/DiscordChat-forge*.jar
