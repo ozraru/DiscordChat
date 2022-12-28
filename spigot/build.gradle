@@ -34,7 +34,7 @@ application {
 }
 
 shadowJar {
-    archiveFileName = "DiscordChat-spigot.jar"
+    archiveFileName = "DiscordChat-spigot-${version}.jar"
 }
 
 artifacts {

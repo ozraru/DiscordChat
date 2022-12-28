@@ -44,7 +44,7 @@ reobf {
 }
 
 shadowJar {
-    archiveFileName = "DiscordChat-forge1.12.2.jar"
+    archiveFileName = "DiscordChat-forge${minecraftVersion}-${version}.jar"
 
     configurations = [project.configurations.shadowDep]
     
