@@ -46,6 +46,6 @@ public class ForgeEvent {
         if (!(e.getEntity() instanceof EntityPlayer)) {
             return;
         }
-        DiscordMessage.instance.gameMessage(e.getSource().getDeathMessage(e.getEntityLiving()).getFormattedText());
+        DiscordMessage.instance.gameMessage(e.getSource().getDeathMessage(e.getEntityLiving()).getUnformattedText());
     }
 }
