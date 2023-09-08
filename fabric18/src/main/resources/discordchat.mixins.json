@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "work.raru.discordchat.fabric.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"ChatEventMixin",
+		"DeathDetectorMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
