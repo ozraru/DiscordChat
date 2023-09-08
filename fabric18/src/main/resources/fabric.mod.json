@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"work.raru.discordchat.fabric18.DiscordChat"
+			"work.raru.discordchat.fabric.DiscordChat"
 		]
 	},
 	"mixins": [

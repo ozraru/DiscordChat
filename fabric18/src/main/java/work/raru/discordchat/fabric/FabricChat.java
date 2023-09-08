@@ -1,13 +1,15 @@
 package work.raru.discordchat.fabric;
 
-import java.util.UUID;
-
+import com.mojang.authlib.GameProfile;
 import net.minecraft.network.MessageType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Util;
 import work.raru.discordchat.common.IMinecraftChat;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class FabricChat implements IMinecraftChat {
 
@@ -32,6 +34,15 @@ public class FabricChat implements IMinecraftChat {
 
     @Override
     public String getName(UUID uuid) {
-        return server.getPlayerManager().getPlayer(uuid).getEntityName();
+        ServerPlayerEntity player = server.getPlayerManager().getPlayer(uuid);
+        if (player != null){
+            return player.getEntityName();
+        }
+        Optional<GameProfile> userCache = server.getUserCache().getByUuid(uuid);
+        if(userCache.isPresent()){
+            return userCache.get().getName();
+        }
+        DiscordChat.LOGGER.warn("Player with uuid " + uuid.toString() +" not found.");
+        return "Unknown";
     }
 }

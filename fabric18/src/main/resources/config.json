@@ -1,0 +1,45 @@
+{
+  "discord": {
+    "token": "YOUR TOKEN HERE",
+    "channel": 0,
+    "prefix": "%mc ",
+    "webhook": "https://discord.com/api/webhooks/XXXXXXXXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  "chat_format": {
+    "discord": {
+      "linked_name": "[MC] %d",
+      "unlinked_name": "[MC] %m"
+    },
+    "minecraft": {
+      "normal": {
+        "linked": "[Discord] <%m> %t",
+        "unlinked": "[Discord] <%d> %t"
+      },
+      "reply": {
+        "linked": "[Discord reply] <%m> %t",
+        "unlinked": "[Discord reply] <%d> %t"
+      },
+      "attachment": {
+        "linked": "[Discord attachment] <%m> %t",
+        "unlinked": "[Discord attachment] <%d> %t"
+      },
+      "reply_attachment": {
+        "linked": "[Discord reply attachment] <%m> %t",
+        "unlinked": "[Discord reply attachment] <%d> %t"
+      }
+    }
+  },
+  "login_restriction": false,
+  "shutdown_time": 300,
+  "link": {
+    "token_expire": 300
+  },
+  "database": {
+    "table_prefix": "dc_",
+    "type": "sqlite",
+    "url": "jdbc:sqlite:./config/DiscordChatDB.sqlite",
+    "user": "postgres_user",
+    "password": "pastgres_password"
+  },
+  "debug": false
+}
