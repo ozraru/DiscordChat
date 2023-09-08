@@ -2,6 +2,8 @@ package work.raru.discordchat.common;
 
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonObject;
