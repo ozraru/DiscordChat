@@ -98,17 +98,22 @@ public class DiscordMessage extends ListenerAdapter {
 				e.printStackTrace();
 			}
 		}
-		String content = Main.platform.getConfig().getChatFormats().getMinecraftFormat(minecraftName != null,
+		String mcMsg = Main.platform.getConfig().getChatFormats().getMinecraftFormat(minecraftName != null,
 				msg.getReferencedMessage() != null, !msg.getAttachments().isEmpty());
 		if (minecraftName != null) {
-			content = content.replace("%m", minecraftName);
+			mcMsg = mcMsg.replace("%m", minecraftName);
 		}
 
-		content = content.replace("%d",
+		mcMsg = mcMsg.replace("%d",
 				member == null
 						? msg.getAuthor().getName()
 						: member.getEffectiveName());
-		content = content.replace("%t", msg.getContentDisplay());
+
+		String content = msg.getContentDisplay();
+		content = EmojiParser.parseToAliases(content);
+		content = MarkdownConverter.toMinecraft(content);
+		mcMsg = mcMsg.replace("%t", content);
+
 		Message refMsg = msg.getReferencedMessage();
 		if (refMsg != null) {
 			try {
@@ -116,28 +121,28 @@ public class DiscordMessage extends ListenerAdapter {
 				if (minecraftUUID != null) {
 					String replyMinecraft = Main.platform.getChat().getName(minecraftUUID);
 					if (replyMinecraft != null) {
-						content = content.replace("%rm", replyMinecraft);
-						content = content.replace("%rn", replyMinecraft);
+						mcMsg = mcMsg.replace("%rm", replyMinecraft);
+						mcMsg = mcMsg.replace("%rn", replyMinecraft);
 					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			Member refMember = refMsg.getMember();
-			content = content.replace("%rm", "");
+			mcMsg = mcMsg.replace("%rm", "");
 			if (refMember == null) {
-				content = content.replace("%rn", refMsg.getAuthor().getName());
-				content = content.replace("%rd", refMsg.getAuthor().getName());
+				mcMsg = mcMsg.replace("%rn", refMsg.getAuthor().getName());
+				mcMsg = mcMsg.replace("%rd", refMsg.getAuthor().getName());
 			} else {
-				content = content.replace("%rn", refMember.getEffectiveName());
-				content = content.replace("%rd", refMember.getEffectiveName());
+				mcMsg = mcMsg.replace("%rn", refMember.getEffectiveName());
+				mcMsg = mcMsg.replace("%rd", refMember.getEffectiveName());
 			}
 			String refText = refMsg.getContentDisplay();
 			refText = EmojiParser.parseToAliases(refText);
 			refText = MarkdownConverter.toMinecraft(refText);
-			content = content.replace("%rt", refText);
+			mcMsg = mcMsg.replace("%rt", refText);
 		}
-		Main.platform.getChat().broadcast(content);
+		Main.platform.getChat().broadcast(mcMsg);
 	}
 
 	static final Pattern emojiPattern = Pattern.compile("\\w{2,}");
