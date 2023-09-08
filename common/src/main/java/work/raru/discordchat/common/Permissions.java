@@ -24,4 +24,8 @@ public enum Permissions {
     public enum DefaultPermissions {
         ALL, OP, NONE;
     }
+    
+    public String toString() {
+        return node;
+    }
 }
