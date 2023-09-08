@@ -71,14 +71,14 @@ public class MinecraftCommand {
     @SuppressWarnings("null")
     public static boolean link(@Nonnull IPlayer player, @Nonnull IPlayer target) {
         if (!player.checkPerm(Permissions.COMMAND_LINK)) {
-            player.sendMsg("You don't have permission: "+Permissions.COMMAND_LINK, false);
+            player.sendMsg("You don't have permission: "+Permissions.COMMAND_LINK.node, false);
             return true;
         }
         if (target.getUUID() == null) {
             return false;
         }
         if (player.getUUID() != target.getUUID() && !player.checkPerm(Permissions.COMMAND_LINK_OTHER)) {
-            player.sendMsg("You don't have permission: "+Permissions.COMMAND_LINK_OTHER, false);
+            player.sendMsg("You don't have permission: "+Permissions.COMMAND_LINK_OTHER.node, false);
             return true;
         }
         int expirationSeconds = Main.platform.getConfig().getTokenExpire();
@@ -99,8 +99,8 @@ public class MinecraftCommand {
     }
 
     public static void reload(@Nonnull IPlayer player) {
-        if (!player.checkPerm("discordchat.command.reload")) {
-            player.sendMsg("You don't have permission: discordchat.command.reload", false);
+        if (!player.checkPerm(Permissions.COMMAND_RELOAD)) {
+            player.sendMsg("You don't have permission: "+Permissions.COMMAND_RELOAD.node, false);
             return;
         }
         Main.platform.getConfig().reload();
@@ -109,8 +109,8 @@ public class MinecraftCommand {
     }
 
     public static void restart(@Nonnull IPlayer player) {
-        if (!player.checkPerm("discordchat.command.restart")) {
-            player.sendMsg("You don't have permission: discordchat.command.restart", false);
+        if (!player.checkPerm(Permissions.COMMAND_RESTART)) {
+            player.sendMsg("You don't have permission: "+Permissions.COMMAND_RESTART.node, false);
             return;
         }
         player.sendMsg("Shutdowning JDA...", true);
@@ -153,8 +153,9 @@ public class MinecraftCommand {
 
     public static void emojiful(@Nonnull IPlayer player) {
         try {
-            if (!player.checkPerm("discordchat.command.emojiful")) {
-                player.sendMsg("You don't have permission: discordchat.command.emojiful", false);
+            if (!player.checkPerm(Permissions.COMMAND_EMOJIFUL)) {
+            player.sendMsg("You don't have permission: "+Permissions.COMMAND_EMOJIFUL.node, false);
+                return;
             }
             EmojifulGenerator.generate();
             player.sendMsg("Successfully generated emojiful datapack.", true);
