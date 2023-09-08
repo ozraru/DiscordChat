@@ -43,3 +43,8 @@ jobs:
       with:
         name: DiscordChat-forge1.12.2.jar
         path: forge12/build/libs/DiscordChat-forge*.jar
+    - name: Upload a Fabric1.18.2 mod
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: DiscordChat-fabric1.18.2.jar
+        path: fabric18/build/libs/DiscordChat-fabric*.jar

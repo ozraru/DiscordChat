@@ -19,4 +19,4 @@ pluginManagement {
 }
 
 rootProject.name = 'DiscordChat'
-include('common', 'spigot', 'fabric18')
+include('common', 'spigot', 'fabric18', 'forge', 'forge12')

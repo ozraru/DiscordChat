@@ -38,3 +38,4 @@ jobs:
           spigot/build/libs/DiscordChat-spigot-*.jar
           forge/build/libs/DiscordChat-forge*.jar
           forge12/build/libs/DiscordChat-forge*.jar
+          fabric18/build/libs/DiscordChat-fabric*.jar
