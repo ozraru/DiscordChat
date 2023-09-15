@@ -5,7 +5,8 @@
 	"name": "DiscordChat",
 	"description": "Chat proxy between Discord",
 	"authors": [
-		"ozraru"
+		"ozraru",
+		"1keponchem"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
