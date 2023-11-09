@@ -33,16 +33,21 @@ jobs:
       with:
         name: DiscordChat-spigot.jar
         path: spigot/build/libs/DiscordChat-spigot-*.jar
-    - name: Upload a Forge mod
-      uses: actions/upload-artifact@v3.0.0
-      with:
-        name: DiscordChat-forge.jar
-        path: forge/build/libs/DiscordChat-forge*.jar
     - name: Upload a Forge1.12.2 mod
       uses: actions/upload-artifact@v3.0.0
       with:
         name: DiscordChat-forge1.12.2.jar
         path: forge12/build/libs/DiscordChat-forge*.jar
+    - name: Upload a Forge1.16.5 mod
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: DiscordChat-forge1.16.5.jar
+        path: forge16/build/libs/DiscordChat-forge*.jar
+    - name: Upload a Forge1.19.2 mod
+      uses: actions/upload-artifact@v3.0.0
+      with:
+        name: DiscordChat-forge1.19.2.jar
+        path: forge19/build/libs/DiscordChat-forge*.jar
     - name: Upload a Fabric1.18.2 mod
       uses: actions/upload-artifact@v3.0.0
       with:

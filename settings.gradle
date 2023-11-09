@@ -15,8 +15,10 @@ pluginManagement {
 		}
 		mavenCentral()
 		gradlePluginPortal()
+		maven { url = 'https://maven.minecraftforge.net/' }
 	}
 }
 
 rootProject.name = 'DiscordChat'
-include('common', 'spigot', 'fabric18', 'forge', 'forge12')
+include('common', 'spigot', 'fabric18', 'forge16', 'forge12', 'forge19')
+
