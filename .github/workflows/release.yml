@@ -36,6 +36,7 @@ jobs:
         generate_release_notes: true
         files: |
           spigot/build/libs/DiscordChat-spigot-*.jar
-          forge/build/libs/DiscordChat-forge*.jar
           forge12/build/libs/DiscordChat-forge*.jar
+          forge16/build/libs/DiscordChat-forge*.jar
+          forge19/build/libs/DiscordChat-forge*.jar
           fabric18/build/libs/DiscordChat-fabric*.jar
