@@ -2,6 +2,7 @@ package work.raru.discordchat.forge19;
 
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -42,7 +43,7 @@ public class DiscordChat
     }
 
     @SubscribeEvent
-    public void PermissionRegister(PermissionGatherEvent.Nodes event) {
+    public void permissionRegister(PermissionGatherEvent.Nodes event) {
         for (Permissions permission: Permissions.values()) {
             PermissionNode<Boolean> node = new PermissionNode<>(MODID, permission.node, PermissionTypes.BOOLEAN, (player, playerUUID, context) -> switch (permission.defaultPerm) {
                 case ALL -> true;
@@ -56,6 +57,11 @@ public class DiscordChat
             event.addNodes(node);
         }
 
+    }
+
+    @SubscribeEvent
+    public void registerCommand(final RegisterCommandsEvent e) {
+        ForgeCommand.register(e.getDispatcher());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
