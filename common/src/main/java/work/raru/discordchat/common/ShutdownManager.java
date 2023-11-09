@@ -56,7 +56,7 @@ public class ShutdownManager extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
-        if (event.getMessageIdLong() != msg.getIdLong()) {
+        if (msg == null || event.getMessageIdLong() != msg.getIdLong()) {
             return;
         }
         String id = event.getButton().getId();
