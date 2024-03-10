@@ -1,6 +1,7 @@
 allprojects {
     apply plugin: 'java'
 
+    group = 'work.raru.discordchat'
     version = "0.6"
 
     jar {

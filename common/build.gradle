@@ -14,16 +14,6 @@ repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
     maven {
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-
-        // As of Gradle 5.1, you can limit this to only those
-        // dependencies you expect from it
-        content {
-            includeGroup 'org.bukkit'
-            includeGroup 'org.spigotmc'
-        }
-    }
-    maven {
       name 'm2-dv8tion'
       url 'https://m2.dv8tion.net/releases'
     }
@@ -36,9 +26,9 @@ dependencies {
     
     implementation 'com.vdurmont:emoji-java:5.1.1'
     
-    implementation 'com.google.code.gson:gson:2.9.+'
+    implementation 'com.google.code.gson:gson:2.10.+'
     
-    implementation 'org.xerial:sqlite-jdbc:3.39.+'
+    implementation 'org.xerial:sqlite-jdbc:3.45.+'
     
-    implementation 'org.postgresql:postgresql:42.5.+'
+    implementation 'org.postgresql:postgresql:42.7.+'
 }
