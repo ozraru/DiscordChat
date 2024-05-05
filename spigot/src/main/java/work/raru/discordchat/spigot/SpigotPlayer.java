@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import work.raru.discordchat.common.IPlayer;
+import work.raru.discordchat.common.Permissions;
 
 public class SpigotPlayer implements IPlayer {
 
@@ -52,11 +53,11 @@ public class SpigotPlayer implements IPlayer {
     }
 
     @Override
-    public boolean checkPerm(String perm) {
+    public boolean checkPerm(Permissions perm) {
         if (sender == null) {
             return false;
         }
-        return sender.hasPermission(perm);
+        return sender.hasPermission(perm.node);
     }
 
     @Override

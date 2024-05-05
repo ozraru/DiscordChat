@@ -13,13 +13,13 @@ public class SpigotCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return MinecraftCommand.getAutoComplete(args, sender::hasPermission);
+        return MinecraftCommand.getAutoComplete(args, new SpigotPlayer(sender)::checkPerm);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 1 || args[0].equals("help")) {
-            sender.sendMessage(MinecraftCommand.getHelpMessage(label, sender::hasPermission));
+            sender.sendMessage(MinecraftCommand.getHelpMessage(label, new SpigotPlayer(sender)::checkPerm));
 			return true;
 		}
 		try {

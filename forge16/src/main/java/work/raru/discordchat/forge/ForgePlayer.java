@@ -14,6 +14,7 @@ import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.server.permission.PermissionAPI;
 import work.raru.discordchat.common.IPlayer;
+import work.raru.discordchat.common.Permissions;
 
 public class ForgePlayer implements IPlayer {
 
@@ -68,14 +69,14 @@ public class ForgePlayer implements IPlayer {
     }
 
     @Override
-    public boolean checkPerm(String perm) {
+    public boolean checkPerm(Permissions perm) {
         if (uuid == null) {
             return true;
         }
         if (player == null) {
             return false;
         }
-        return PermissionAPI.hasPermission(player, perm);
+        return PermissionAPI.hasPermission(player, perm.node);
     }
 
     public void sendMsg(TextComponent msg, boolean isSuccess) {

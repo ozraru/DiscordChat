@@ -15,44 +15,44 @@ public class MinecraftCommand {
 
     static Random random = new Random();
 
-    public static List<String> getAutoComplete(String[] args, Predicate<String> perm) {
+    public static List<String> getAutoComplete(String[] args, Predicate<Permissions> perm) {
 		ArrayList<String> result = new ArrayList<>();
 		if (args.length == 1) {
-            if (perm.test(Permissions.COMMAND_LINK.node)) {
+            if (perm.test(Permissions.COMMAND_LINK)) {
                 result.add("link");
             }
-            if (perm.test(Permissions.COMMAND_RELOAD.node)) {
+            if (perm.test(Permissions.COMMAND_RELOAD)) {
                 result.add("reload");
             }
-            if (perm.test(Permissions.COMMAND_RESTART.node)) {
+            if (perm.test(Permissions.COMMAND_RESTART)) {
                 result.add("restart");
             }
-            if (perm.test(Permissions.COMMAND_EMOJIFUL.node)) {
+            if (perm.test(Permissions.COMMAND_EMOJIFUL)) {
                 result.add("emojiful");
             }
             result.add("help");
 		}
-		if (args.length == 2 && args[1].equals("link") && perm.test(Permissions.COMMAND_LINK_OTHER.node)) {
+		if (args.length == 2 && args[1].equals("link") && perm.test(Permissions.COMMAND_LINK_OTHER)) {
             return null; // Can specify player
 		}
 		return result;
     }
 
-    public static String getHelpMessage(String label, Predicate<String> perm) {
+    public static String getHelpMessage(String label, Predicate<Permissions> perm) {
         String msg = "";
-        if (perm.test(Permissions.COMMAND_LINK.node)) {
+        if (perm.test(Permissions.COMMAND_LINK)) {
             msg += label + " link: Link your accounts to Discord\n";
         }
-        if (perm.test(Permissions.COMMAND_LINK_OTHER.node)) {
+        if (perm.test(Permissions.COMMAND_LINK_OTHER)) {
             msg += label + " link <player>: Issue other accounts token to link Discord\n";
         }
-        if (perm.test(Permissions.COMMAND_RELOAD.node)) {
+        if (perm.test(Permissions.COMMAND_RELOAD)) {
             msg += label + " reload: Reload config file\n";
         }
-        if (perm.test(Permissions.COMMAND_RESTART.node)) {
+        if (perm.test(Permissions.COMMAND_RESTART)) {
             msg += label + " restart: Restart JDA\n";
         }
-        if (perm.test(Permissions.COMMAND_EMOJIFUL.node)) {
+        if (perm.test(Permissions.COMMAND_EMOJIFUL)) {
             msg += label + " emojiful: Generate emojiful resource pack\n";
         }
         msg += label + " help: Show this message\n";

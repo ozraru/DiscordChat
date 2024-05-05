@@ -60,17 +60,6 @@ public class FabricPlayer implements IPlayer {
     }
 
     @Override
-    public boolean checkPerm(String perm) {
-        if (sender != null) {
-            return Permissions.check(sender, perm);
-        }
-        if (player != null) {
-            return Permissions.check(player, perm);
-        }
-        return false;
-    }
-
-    @Override
     public boolean checkPerm(work.raru.discordchat.common.Permissions perm) {
         if (sender != null) {
             switch (perm.defaultPerm) {

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.nodes.PermissionNode;
 import work.raru.discordchat.common.IPlayer;
+import work.raru.discordchat.common.Permissions;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -69,14 +70,14 @@ public class ForgePlayer implements IPlayer {
     }
 
     @Override
-    public boolean checkPerm(String perm) {
+    public boolean checkPerm(Permissions perm) {
         if (uuid == null) {
             return true;
         }
         if (player == null) {
             return false;
         }
-        PermissionNode<Boolean> node = permissionNodes.get(perm);
+        PermissionNode<Boolean> node = permissionNodes.get(perm.node);
         if (node == null) return false;
         return PermissionAPI.getPermission(player, node);
     }
