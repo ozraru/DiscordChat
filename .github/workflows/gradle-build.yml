@@ -17,39 +17,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/actions/setup-gradle@v4
       with:
         arguments: build
         gradle-version: 8.1.1
     - name: Upload a Spigot plugin
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DiscordChat-spigot.jar
         path: spigot/build/libs/DiscordChat-spigot-*.jar
     - name: Upload a Forge1.12.2 mod
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DiscordChat-forge1.12.2.jar
         path: forge12/build/libs/DiscordChat-forge*.jar
     - name: Upload a Forge1.16.5 mod
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DiscordChat-forge1.16.5.jar
         path: forge16/build/libs/DiscordChat-forge*.jar
     - name: Upload a Forge1.19.2 mod
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DiscordChat-forge1.19.2.jar
         path: forge19/build/libs/DiscordChat-forge*.jar
     - name: Upload a Fabric1.18.2 mod
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DiscordChat-fabric1.18.2.jar
         path: fabric18/build/libs/DiscordChat-fabric*.jar
+    - name: Upload a Forge1.20.1 mod
+      uses: actions/upload-artifact@v4
+      with:
+        name: DiscordChat-forge1.20.1.jar
+        path: forge20/build/libs/DiscordChat-forge*.jar
