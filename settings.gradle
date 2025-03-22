@@ -16,24 +16,8 @@ pluginManagement {
 		mavenCentral()
 		gradlePluginPortal()
 		maven { url = 'https://maven.minecraftforge.net/' }
-		maven {
-			// RetroFuturaGradle
-			name = "GTNH Maven"
-			url = uri("https://nexus.gtnewhorizons.com/repository/public/")
-			mavenContent {
-				includeGroupByRegex("com\\.gtnewhorizons\\..+")
-				includeGroup("com.gtnewhorizons")
-			}
-		}
 	}
 }
 
-plugins {
-	// Automatic toolchain provisioning
-	id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
-}
-
 rootProject.name = 'DiscordChat'
-include('common', 'spigot', 'fabric18', 'forge16', 'forge12', 'forge19', 'forge7')
-include 'forge20'
-
+include('common', 'spigot', 'fabric18', 'forge16', 'forge12', 'forge19', 'forge20')
