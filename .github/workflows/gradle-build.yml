@@ -23,11 +23,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Build with Gradle
+    - name: Setup Gradle 8.1.1
       uses: gradle/actions/setup-gradle@v4
       with:
-        arguments: build
         gradle-version: 8.1.1
+    - name: Build with Gradle 8.1.1
+      run: ./gradlew build
     - name: Upload a Spigot plugin
       uses: actions/upload-artifact@v4
       with:
